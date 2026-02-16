@@ -1,0 +1,7 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#1a472a"/>
+  <circle cx="256" cy="256" r="160" fill="#f5f5dc" stroke="#dc2626" stroke-width="8"/>
+  <path d="M 256 96 Q 320 256 256 416" stroke="#dc2626" stroke-width="6" fill="none"/>
+  <path d="M 256 96 Q 192 256 256 416" stroke="#dc2626" stroke-width="6" fill="none"/>
+  <text x="256" y="290" font-family="Arial" font-size="128" font-weight="bold" fill="#1a472a" text-anchor="middle">🏏</text>
+</svg>

@@ -1,0 +1,18 @@
+{
+    "name": "Stumps - Cricket Scorer",
+    "short_name": "Stumps",
+    "description": "Fast cricket scoring for turf and street matches",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a1f14",
+    "theme_color": "#1a472a",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
