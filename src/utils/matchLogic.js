@@ -98,12 +98,13 @@ export const recalculateFromHistory = (initialState, ballHistory) => {
                 state.score = 0;
                 state.wickets = 0;
                 state.balls = 0;
+                // Continue processing balls for 2nd innings
             } else {
                 state.matchComplete = true;
                 const result = calculateResult(state);
                 state.winner = result;
+                break; // Only break when match is complete
             }
-            break;
         }
     }
 

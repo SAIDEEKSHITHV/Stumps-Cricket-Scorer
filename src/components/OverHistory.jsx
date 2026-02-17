@@ -9,36 +9,47 @@ const OverHistory = ({ ballHistory, state }) => {
         const overs = [];
         let currentOver = [];
         let legalBallCount = 0;
+        let overNumber = 1;
         let currentInnings = 1;
-        let totalLegalBalls = 0;
 
         ballHistory.forEach((ball, index) => {
+            // Track innings changes
+            if (ball.innings && ball.innings !== currentInnings) {
+                // Close current over if it exists before switching innings
+                if (currentOver.length > 0) {
+                    overs.push({
+                        balls: currentOver,
+                        innings: currentInnings,
+                        overNumber: overNumber
+                    });
+                    currentOver = [];
+                }
+
+                currentInnings = ball.innings;
+                overNumber = 1; // Reset over number for new innings
+                legalBallCount = 0;
+            }
+
             currentOver.push(ball);
 
             if (ball.legalBall) {
                 legalBallCount++;
-                totalLegalBalls++;
 
                 if (legalBallCount === 6) {
                     overs.push({
                         balls: [...currentOver],
                         innings: currentInnings,
-                        overNumber: Math.floor((totalLegalBalls - 1) / 6) % state.totalOvers + 1
+                        overNumber: overNumber
                     });
                     currentOver = [];
                     legalBallCount = 0;
-
-                    // Check if innings should switch (after totalOvers completed)
-                    if (totalLegalBalls % (state.totalOvers * 6) === 0) {
-                        currentInnings = 2;
-                    }
+                    overNumber++;
                 }
             }
         });
 
         // Add incomplete over if exists
         if (currentOver.length > 0) {
-            const overNumber = Math.floor(totalLegalBalls / 6) % state.totalOvers + 1;
             overs.push({
                 balls: currentOver,
                 innings: currentInnings,

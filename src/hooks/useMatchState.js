@@ -33,7 +33,7 @@ const matchReducer = (state, action) => {
 
         case ACTIONS.ADD_RUNS: {
             const runs = action.payload;
-            const newBall = { type: 'run', runs, legalBall: true, wicket: false };
+            const newBall = { type: 'run', runs, legalBall: true, wicket: false, innings: state.innings };
             const newState = {
                 ...state,
                 score: state.score + runs,
@@ -48,7 +48,7 @@ const matchReducer = (state, action) => {
         }
 
         case ACTIONS.ADD_WICKET: {
-            const newBall = { type: 'wicket', runs: 0, legalBall: true, wicket: true };
+            const newBall = { type: 'wicket', runs: 0, legalBall: true, wicket: true, innings: state.innings };
             const newState = {
                 ...state,
                 wickets: state.wickets + 1,
@@ -65,7 +65,7 @@ const matchReducer = (state, action) => {
         case ACTIONS.ADD_WIDE: {
             const extraRuns = action.payload || 0;
             const totalRuns = 1 + extraRuns;
-            const newBall = { type: 'wide', runs: totalRuns, legalBall: false, wicket: false };
+            const newBall = { type: 'wide', runs: totalRuns, legalBall: false, wicket: false, innings: state.innings };
             const newState = {
                 ...state,
                 score: state.score + totalRuns,
@@ -81,7 +81,7 @@ const matchReducer = (state, action) => {
         case ACTIONS.ADD_NO_BALL: {
             const extraRuns = action.payload || 0;
             const totalRuns = 1 + extraRuns;
-            const newBall = { type: 'noball', runs: totalRuns, legalBall: false, wicket: false };
+            const newBall = { type: 'noball', runs: totalRuns, legalBall: false, wicket: false, innings: state.innings };
             const newState = {
                 ...state,
                 score: state.score + totalRuns,
@@ -96,7 +96,7 @@ const matchReducer = (state, action) => {
 
         case ACTIONS.ADD_BYE: {
             const runs = action.payload;
-            const newBall = { type: 'bye', runs, legalBall: true, wicket: false };
+            const newBall = { type: 'bye', runs, legalBall: true, wicket: false, innings: state.innings };
             const newState = {
                 ...state,
                 score: state.score + runs,
