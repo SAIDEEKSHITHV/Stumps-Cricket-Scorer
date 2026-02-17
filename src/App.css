@@ -744,6 +744,21 @@ body {
   font-size: 48px;
 }
 
+.team-emoji {
+  font-size: 48px;
+}
+
+.toss-choice-btn.team-select {
+  background: linear-gradient(135deg, #1a472a 0%, #0f2818 100%);
+  border-color: #4ade80;
+}
+
+.toss-choice-btn.team-select:hover {
+  background: linear-gradient(135deg, #22543d 0%, #1a472a 100%);
+  border-color: #4ade80;
+  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3);
+}
+
 .toss-hint {
   font-size: 14px;
   color: #fbbf24;

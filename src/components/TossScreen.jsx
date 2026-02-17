@@ -1,13 +1,20 @@
 import { useState } from 'react';
 
 const TossScreen = ({ teamA, teamB, onTossComplete }) => {
-    const [phase, setPhase] = useState('selection'); // selection, flipping, result, decision
+    const [phase, setPhase] = useState('teamSelection'); // teamSelection, coinSelection, flipping, result, decision
+    const [callingTeam, setCallingTeam] = useState(null);
     const [userChoice, setUserChoice] = useState(null);
     const [tossResult, setTossResult] = useState(null);
     const [tossWinner, setTossWinner] = useState(null);
     const [isFlipping, setIsFlipping] = useState(false);
 
-    // Strategic toss logic - gives user's choice 55% win probability
+    // Handle team selection
+    const handleTeamSelection = (team) => {
+        setCallingTeam(team);
+        setPhase('coinSelection');
+    };
+
+    // Strategic toss logic - gives calling team's choice 55% win probability
     const flipCoin = (choice) => {
         setUserChoice(choice);
         setIsFlipping(true);
@@ -17,12 +24,12 @@ const TossScreen = ({ teamA, teamB, onTossComplete }) => {
         const seed = Date.now();
         const random = (seed % 100) / 100;
 
-        // 55% chance user wins, 45% chance user loses
-        const userWins = random < 0.55;
-        const result = userWins ? choice : (choice === 'heads' ? 'tails' : 'heads');
+        // 55% chance calling team wins, 45% chance they lose
+        const callingTeamWins = random < 0.55;
+        const result = callingTeamWins ? choice : (choice === 'heads' ? 'tails' : 'heads');
 
-        // Determine winner
-        const winner = userWins ? teamA : teamB;
+        // Determine winner based on calling team
+        const winner = callingTeamWins ? callingTeam : (callingTeam === teamA ? teamB : teamA);
 
         // Simulate coin flip animation duration
         setTimeout(() => {
@@ -51,9 +58,32 @@ const TossScreen = ({ teamA, teamB, onTossComplete }) => {
                 <h1>🪙 Toss Time</h1>
                 <p className="toss-subtitle">{teamA} vs {teamB}</p>
 
-                {phase === 'selection' && (
+                {phase === 'teamSelection' && (
                     <div className="toss-selection">
-                        <p className="toss-instruction">Choose your call:</p>
+                        <p className="toss-instruction">Which team is calling the toss?</p>
+                        <div className="toss-choice-buttons">
+                            <button
+                                className="toss-choice-btn team-select"
+                                onClick={() => handleTeamSelection(teamA)}
+                            >
+                                <span className="team-emoji">🏏</span>
+                                <span>{teamA}</span>
+                            </button>
+                            <button
+                                className="toss-choice-btn team-select"
+                                onClick={() => handleTeamSelection(teamB)}
+                            >
+                                <span className="team-emoji">🏏</span>
+                                <span>{teamB}</span>
+                            </button>
+                        </div>
+                        <p className="toss-hint">💡 Select the team that will call heads or tails</p>
+                    </div>
+                )}
+
+                {phase === 'coinSelection' && (
+                    <div className="toss-selection">
+                        <p className="toss-instruction">{callingTeam}, choose your call:</p>
                         <div className="toss-choice-buttons">
                             <button
                                 className="toss-choice-btn heads"
@@ -76,7 +106,7 @@ const TossScreen = ({ teamA, teamB, onTossComplete }) => {
 
                 {phase === 'flipping' && (
                     <div className="toss-flipping">
-                        <p className="toss-call">You called: <strong>{userChoice.toUpperCase()}</strong></p>
+                        <p className="toss-call">{callingTeam} called: <strong>{userChoice.toUpperCase()}</strong></p>
                         <div className="coin-container">
                             <div className={`coin ${isFlipping ? 'flipping' : ''}`}>
                                 <div className="coin-face heads-face">H</div>
